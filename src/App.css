@@ -1,0 +1,21 @@
+@import '~antd/dist/antd.css';
+
+.App {
+  text-align: center;
+}
+
+.container {
+  width: 100%;
+  background-color: rgb(230, 129, 129);
+  overflow: hidden;
+  padding: 50px;
+}
+
+.mid-content {
+  width: 90%;
+  margin: 0 auto;
+  border-radius: 5px;
+  background-color: #fff;
+  overflow: hidden;
+  
+}
