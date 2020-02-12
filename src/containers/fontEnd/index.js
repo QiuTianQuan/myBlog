@@ -1,6 +1,16 @@
 import axios from 'axios';
 import {getData, getDetail,getLastId,getNextId, getTotal, postArticle,getComments,postComment} from '../../actions'
 var qs = require("qs");
+const domain = 'http://localhost:3000/'
+export const getBlogUrl = domain+'/api/getBlog'
+export const getTotalUrl = domain+'/api/total'
+export const getLifeUrl = domain+'/api/life'
+export const getDetailUrl = domain+'/api/detail'
+export const getLastIdUrl = domain+'/api/lastId'
+export const getNextIdUrl = domain+'/api/nextId'
+export const getCommentsUrl = domain+'/api/comments'
+export const postArticleUrl = domain+'/api/postArticle'
+export const postCommentUrl = domain+'/api/postComment'
 
 export const getBlogData = url=>{
     console.log(url)

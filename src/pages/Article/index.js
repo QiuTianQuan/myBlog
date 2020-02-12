@@ -4,7 +4,7 @@ export default class Aticle extends Component{
     render(){
         return (
             <div>
-                <ContentList></ContentList>
+                <ContentList {...this.props} ></ContentList>
             </div>
         )
     }

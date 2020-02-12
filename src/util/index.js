@@ -1,0 +1,1 @@
+export const getPathName = props=>props.location&&props.location.pathname&&props.location.pathname.substring(1);

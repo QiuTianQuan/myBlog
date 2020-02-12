@@ -19,7 +19,7 @@ function App() {
   return (
     <div className="container">
       <div className="mid-content">
-        <HashRouter>
+        <Router>
           <div>
             <Header />
           </div>
@@ -32,7 +32,7 @@ function App() {
             <Route path="/Editor" component={Editor}/>
           </div>
           <Footer/>
-        </HashRouter>
+        </Router>
       </div>
     </div>
   );

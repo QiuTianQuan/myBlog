@@ -7,11 +7,16 @@ import {
     Route,
     Link
 } from 'react-router-dom'
+import {getData, getTotal} from '../../actions'
+import {getBlogUrl, getTotalUrl, getBlogData, getTotalData} from '../../containers/fontEnd'
+import {getPathName} from '../../util';
+
 
 export default class ContentList extends Component {
     render() {
+        const pathname = getPathName(this.props);
+        const data = this.props[pathname];
         const listData = [{title:"今天真开心",like:"2",visitor:"10",avatar:"",id:1}];
-        const pathname = "";
         const IconText = ({type, text}) => (
             <span>
                 <Icon type={type} style={{marginRight: 8}}/>
