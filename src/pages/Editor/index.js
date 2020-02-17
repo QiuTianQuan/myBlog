@@ -1,17 +1,53 @@
 import React, { Component } from 'react'
 import E from 'wangeditor'
+import { postArticleData, postArticleUrl} from '../../containers/fontEnd'
+import {connect} from 'react-redux'
+import './PostArticle.less' 
+
+import {Layout, Menu, Breadcrumb, Row, Col} from 'antd'
+import {List, Avatar, Icon, Pagination, Alert, Input, Button,Select } from 'antd'
+const Option = Select.Option;
 
 
 
-export default class index extends Component {
+class PostArticle extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            editorContent:''
+            editorContent:'',
+            Typeval:'',
+            KindVal:'',
+            titleVal:''
          };
     }
     
+    onSubmit(){
+        let {
+            editorContent,
+            titleVal,
+            Typeval,
+            KindVal}=this.state;
+            this.props.dispatch(postArticleData(postArticleUrl,{title:titleVal,content:editorContent,type:Typeval,kind:KindVal}))
+    }
+
+    handleChangeKind(value) {
+        this.setState({
+            KindVal:value
+        })
+    }
+    handleChangeTitle(e) {
+        this.setState({
+            titleVal:e.target.value
+        })
+    }
+
+    handleChangeType(value) {
+        this.setState({
+            Typeval:value
+        })
+    }
+
     componentDidMount() {
         const elemMenu = this.refs.editorElemMenu;
         const elemBody = this.refs.editorElemBody;
@@ -102,9 +138,28 @@ export default class index extends Component {
 
     };
 
+
     render() {
         return (
             <div className="editor">
+                <Input  onChange={this.handleChangeTitle.bind(this)} placeholder="文章标题"/>
+                <Select defaultValue="文章分类" style={{ width: '100%' }} onChange={this.handleChangeType.bind(this)}>
+                    <Option value="life">生活</Option>
+                    <Option value="blog">博客</Option>
+                </Select>
+                <Select defaultValue="文章类型" style={{ width: '100%' }} onChange={this.handleChangeKind.bind(this)}>
+                    <Option value="h5">html</Option>
+                    <Option value="css">css</Option>
+                    <Option value="js">javascript</Option>
+                    <Option value="vue">vue</Option>
+                    <Option value="react">react</Option>
+                    <Option value="angular">angular</Option>
+                    <Option value="node">node</Option>
+                    <Option value="php">php</Option>
+                    <Option value="mysql">mysql</Option>
+                    <Option value="server">服务器之类</Option>
+                    <Option value="others">其他</Option>
+                </Select>
                 <div className="text-area" >
                     <div ref="editorElemMenu"
                          style={{backgroundColor:'#f1f1f1',border:"1px solid #ccc"}}
@@ -123,10 +178,12 @@ export default class index extends Component {
 
                     </div>
                 </div>
-                <div>
+                <div onClick = {this.onSubmit.bind(this)}>
                     upload
                 </div>
             </div>
         );
     }
 }
+
+export default connect()(PostArticle)

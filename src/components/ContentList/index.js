@@ -15,8 +15,7 @@ import {getPathName} from '../../util';
 export default class ContentList extends Component {
     render() {
         const pathname = getPathName(this.props);
-        const data = this.props[pathname];
-        const listData = [{title:"今天真开心",like:"2",visitor:"10",avatar:"",id:1}];
+        let listData = pathname==='Life'? this.props.life: this.props.blog;
         const IconText = ({type, text}) => (
             <span>
                 <Icon type={type} style={{marginRight: 8}}/>

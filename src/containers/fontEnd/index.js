@@ -1,10 +1,10 @@
 import axios from 'axios';
-import {getData, getDetail,getLastId,getNextId, getTotal, postArticle,getComments,postComment} from '../../actions'
+import {getDetail,getLastId,getNextId, getTotal, postArticle,getComments,postComment,getBlog,getLife} from '../../actions'
 var qs = require("qs");
-const domain = 'http://localhost:3000/'
+const domain = 'http://localhost:8806'
 export const getBlogUrl = domain+'/api/getBlog'
-export const getTotalUrl = domain+'/api/total'
-export const getLifeUrl = domain+'/api/life'
+export const getTotalUrl = domain+'/api/getTotal'
+export const getLifeUrl = domain+'/api/getLife'
 export const getDetailUrl = domain+'/api/detail'
 export const getLastIdUrl = domain+'/api/lastId'
 export const getNextIdUrl = domain+'/api/nextId'
@@ -13,13 +13,21 @@ export const postArticleUrl = domain+'/api/postArticle'
 export const postCommentUrl = domain+'/api/postComment'
 
 export const getBlogData = url=>{
-    console.log(url)
       return dispatch => {
           axios.get(url).then(res => {
-              dispatch(getData(res.data))
+              dispatch(getBlog(res.data))
           })
       }
   }
+
+export const getLifeData = url=>{
+    return dispatch => {
+        axios.get(url).then(res => {
+            dispatch(getLife(res.data))
+        })
+    }
+}
+
   export const getTotalData =(url)=> {
       return dispatch => {
           axios.get(url).then(res => {
@@ -73,6 +81,7 @@ export const getBlogData = url=>{
   }
   export const postArticleData = (url,data)=>{
     return dispatch => {
+        console.log(data)
       axios({
         method: 'POST',
         url,

@@ -1,5 +1,7 @@
 export const GET_DATA = 'GET_DATA';
 export const GET_TOTAL = 'GET_TOTAL';
+export const GET_LIFE = 'GET_LIFE';
+export const GET_BLOG = 'GET_BLOG';
 export const GET_DETAIL = 'GET_DETAIL';
 export const GET_COMMENTS = 'GET_COMMENTS';
 export const GET_LAST_ID = 'GET_LAST_ID';
@@ -20,6 +22,20 @@ export const getTotal = data => {
         type :GET_TOTAL,
         data
     }
+}
+
+export const getLife = data =>{
+  return {
+      type:GET_LIFE,
+      data
+  }
+}
+
+export const getBlog = data =>{
+  return {
+      type:GET_BLOG,
+      data
+  }
 }
 
 export const getDetail = data => {

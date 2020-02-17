@@ -1,10 +1,23 @@
-const Koa = require('koa');
-const app = new Koa();
+const koa = require('koa')
+const app = new koa()
+const route = require('./routes')
+const bodyParser = require('koa-bodyparser')
+const cors = require('koa-cors')
 
-app.use(async (ctx,next) =>{
-    ctx.response.status = 200;
-    ctx.response.body = "hi koa"
-    await next()
-})
+
+// 使用ctx.body解析中间件
+app.use(bodyParser())
+
+
+
+// routes
+app.use(route.routes(), route.allowedMethods())
+
+app.use(cors())
+
+app.on('error', (err, ctx) => {
+    console.error('server error', err, ctx)
+  });
+
 
 app.listen(8806)

@@ -8,7 +8,9 @@ import {
     GET_LAST_ID,
     GET_NEXT_ID,
     POST_ARTICLE,
-    POST_COMMENT
+    POST_COMMENT,
+    GET_LIFE,
+    GET_BLOG
   } from './actions'
 
   const data = (state = [], action) => {
@@ -83,6 +85,24 @@ import {
     }
   }
 
+  const life = (state = [], action) => {
+    switch (action.type) {
+      case GET_LIFE:
+        return action.data
+      default:
+        return state
+    }
+  }
+
+  const blog = (state = [], action) => {
+    switch (action.type) {
+      case GET_BLOG:
+        return action.data
+      default:
+        return state
+    }
+  }
+
   // 不同响应合并成一个reducer
 const myBlog = combineReducers({
     data,
@@ -93,6 +113,8 @@ const myBlog = combineReducers({
     comments,
     lastId,
     nextId,
+    life,
+    blog
   })
   
   export default myBlog
