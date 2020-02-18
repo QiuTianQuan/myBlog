@@ -39,7 +39,7 @@ const postArticleSql = (title , content, type, kind) => {
   }
 
   const getDetailSql = (id) => {
-    return "select * from article where id=" + id + "";
+    return "select * from article where id=" + id + " limit 1 ";
   }
 
   const getLastIdSql = (currentId) => {
@@ -58,5 +58,6 @@ const postArticleSql = (title , content, type, kind) => {
   module.exports = {
     querySql,
     postArticleSql,
-    getTotalSql
+    getTotalSql,
+    getDetailSql
   }

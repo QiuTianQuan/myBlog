@@ -7,8 +7,6 @@ import {
     Route,
     Link
 } from 'react-router-dom'
-import {getData, getTotal} from '../../actions'
-import {getBlogUrl, getTotalUrl, getBlogData, getTotalData} from '../../containers/fontEnd'
 import {getPathName} from '../../util';
 
 

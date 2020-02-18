@@ -8,8 +8,9 @@ const saveHtml = str => {
     });
   }
 
-
+  const spaceAdd = str => str && str.replace(/\+/g, ' ')
 
   module.exports = {
+    spaceAdd,
     saveHtml
   }
