@@ -8,6 +8,9 @@ export const GET_LAST_ID = 'GET_LAST_ID';
 export const GET_NEXT_ID = 'GET_NEXT_ID';
 export const POST_ARTICLE = 'POST_ARTICLE';
 export const POST_COMMENT = 'POST_COMMENT';
+export const POST_ANSWER = 'POST_ANSWER';
+export const GET_ANSWERS = 'GET_ANSWERS';
+
 
 
 export const getData = data =>{
@@ -76,6 +79,20 @@ export const getLastId = data =>{
   export const postComment = data =>{
     return {
       type:POST_COMMENT,
+      data
+    }
+  };
+
+  export const postAnswer = data =>{
+    return {
+      type:POST_ANSWER,
+      data
+    }
+  };
+
+  export const getAnswers = data =>{
+    return {
+      type:GET_ANSWERS,
       data
     }
   };

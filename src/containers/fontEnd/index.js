@@ -1,5 +1,15 @@
 import axios from 'axios';
-import {getDetail,getLastId,getNextId, getTotal, postArticle,getComments,postComment,getBlog,getLife} from '../../actions'
+import {getDetail,
+        getLastId,
+        getNextId,
+        getTotal, 
+        postArticle,
+        getComments,
+        postComment,
+        getBlog,
+        getLife,
+        postAnswer,
+        getAnswers} from '../../actions'
 var qs = require("qs");
 const domain = 'http://localhost:8806'
 export const getBlogUrl = domain+'/api/getBlog'
@@ -11,6 +21,8 @@ export const getNextIdUrl = domain+'/api/getNextId'
 export const getCommentsUrl = domain+'/api/getComments'
 export const postArticleUrl = domain+'/api/postArticle'
 export const postCommentUrl = domain+'/api/postComment'
+export const postAnswerUrl = domain+'/api/postAnswer'
+export const getAnswersUrl = domain+'/api/getAnswers'
 
 export const getBlogData = url=>{
       return dispatch => {
@@ -65,6 +77,30 @@ export const getLifeData = url=>{
       })
     }
   }
+
+  export const getAnswersData =(url)=> {
+    return dispatch => {
+        axios.get(url).then(res => {
+            dispatch(getAnswers(res.data))
+        })
+    }
+}
+
+  export const postAnswerData = (data)=>{
+    console.log(data)
+    return dispatch => {
+      axios({
+        method: 'POST',
+        url:postAnswerUrl,
+        data:qs.stringify(data),
+        headers: {"Content-Type": "application/x-www-form-urlencoded",},
+  
+      }).then(res => {
+        dispatch(postAnswer(res.data))
+      })
+    }
+  }
+
   export const postCommentData = (data)=>{
     console.log(data)
     return dispatch => {

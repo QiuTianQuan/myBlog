@@ -34,6 +34,19 @@ const postArticleSql = (title , content, type, kind) => {
     "values('" + title + "','" + content + "','" + createTime + "','" + type + "','" + kind + "')";
   }
 
+  const postCommentSql = (id,comment,email,nickname) => {
+    let createTime = Date.now() / 1000 | 0;
+    return "insert into comment(a_id,msg,create_time,email,user) " +
+    "values('" + id + "','" + comment + "','" + createTime + "','" + email + "','" + nickname + "')";
+  }
+
+  const postAnswerSql = (a_id,c_id,comment,email,nickname) => {
+    let createTime = Date.now() / 1000 | 0;
+    return "insert into comment(a_id,c_id,msg,create_time,email,user) " +
+    "values('" + a_id + "','" + c_id + "','" + comment + "','" + createTime + "','" + email + "','" + nickname + "')";
+  }
+ 
+
   const getTotalSql = (type) => {
     return "select *  from article where type='" + type + "'";
   }
@@ -43,21 +56,31 @@ const postArticleSql = (title , content, type, kind) => {
   }
 
   const getLastIdSql = (currentId) => {
-    return 'select id from article  where id < ' + currentId + ' order by id desc limit 1 '
+    return 'select * from article  where id < ' + currentId + ' order by id desc limit 1 '
   }
   // 下一篇文章id
   const getNextIdSql = (currentId) => {
-    return 'select id from article  where id > ' + currentId + ' order by id asc limit 1 '
-  }
-  const getCommentsSql = (a_id) => {
-    return "select * from comment where `a_id`='" + a_id + "' order by create_time desc";
+    return 'select * from article  where id > ' + currentId + ' order by id asc limit 1 '
   }
 
+  const getCommentsSql = (a_id) => {
+    return "select * from comment where a_id = " + a_id + " and c_id = 0";
+  }
+
+  const getAnswersSql = (a_id) => {
+    return "select * from comment where a_id = " + a_id + " and c_id <> 0";
+  }
 
 
   module.exports = {
     querySql,
     postArticleSql,
     getTotalSql,
-    getDetailSql
+    getDetailSql,
+    getLastIdSql,
+    getNextIdSql,
+    postCommentSql,
+    getCommentsSql,
+    getAnswersSql,
+    postAnswerSql
   }

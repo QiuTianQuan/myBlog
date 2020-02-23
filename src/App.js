@@ -14,12 +14,14 @@ import {
   Route,
   Link
 } from 'react-router-dom' 
+import createBrowserHistory from 'history/createBrowserHistory';
+const history = createBrowserHistory();
 
 function App() {
   return (
     <div className="container">
       <div className="mid-content">
-        <Router>
+        <Router history={history}>
           <div>
             <Header />
           </div>

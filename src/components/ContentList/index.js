@@ -8,6 +8,7 @@ import {
     Link
 } from 'react-router-dom'
 import {getPathName} from '../../util';
+import './ContentList.less'
 
 
 export default class ContentList extends Component {
