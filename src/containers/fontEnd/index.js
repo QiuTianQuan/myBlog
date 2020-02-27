@@ -87,7 +87,8 @@ export const getLifeData = url=>{
 }
 
   export const postAnswerData = (data)=>{
-    console.log(data)
+    let a = [];
+    a.push(data);
     return dispatch => {
       axios({
         method: 'POST',
@@ -97,12 +98,12 @@ export const getLifeData = url=>{
   
       }).then(res => {
         dispatch(postAnswer(res.data))
+        dispatch(getAnswersData(getAnswersUrl + "?id="+ data.a_id))
       })
     }
   }
 
   export const postCommentData = (data)=>{
-    console.log(data)
     return dispatch => {
       axios({
         method: 'POST',
@@ -112,6 +113,7 @@ export const getLifeData = url=>{
   
       }).then(res => {
         dispatch(postComment(res.data))
+        dispatch(getCommentsData(getCommentsUrl + "?id="+ data.id))
       })
     }
   }

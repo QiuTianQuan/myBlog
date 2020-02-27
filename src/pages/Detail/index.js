@@ -11,7 +11,8 @@ import {getDetailUrl,
         getCommentsUrl,
         getAnswersUrl,
         getAnswersData,
-        postAnswerData} from '../../containers/fontEnd'
+        postAnswerData,
+        postCommentData} from '../../containers/fontEnd'
 import {connect} from 'react-redux'
 import {getArticleInfo,getHtml} from '../../util';
 import {
@@ -21,21 +22,16 @@ import {
 import {List, Avatar, Icon, Divider} from 'antd';
 import { Modal } from 'antd';
 import {
-    Layout, Menu, Breadcrumb, Row, Col, BackTop, Card, Form,
-    Input, Tooltip, Cascader, Select,  Checkbox, Button, AutoComplete
-  } from 'antd';
+    Row, Col,  Form, Button} from 'antd';
 import './Detail.less'
-const FormItem = Form.Item;
-const { TextArea } = Input;
-
-
 
  class Detail extends Component {
     constructor() {
         super()
         this.state = {
             visible: false,
-            c_id:''
+            c_id:'',
+
         }
     }
     //params.id是以props存储的，检测不到变化无法自动更新
@@ -78,9 +74,23 @@ const { TextArea } = Input;
         let {c_id} = this.state;
         this.props.form.validateFieldsAndScroll((err, values) => {
           if (!err) {
+            console.log(values)
+            this.props.form.resetFields();
             const {comment,email,nickname} = values;
-            this.props.dispatch(postAnswerData({a_id,c_id,comment,email,nickname}))
+            this.props.dispatch(postAnswerData({a_id,c_id,comment,email,nickname}));
+            this.hideModal();
           }
+        });
+    }
+
+    handleClick = () =>{
+        let id = this.props.match.params.id;
+        this.props.form.validateFieldsAndScroll((err, values) => {
+            if (!err) {
+            this.props.form.resetFields();
+            const {comment,email,nickname} = values;
+            this.props.dispatch(postCommentData({id,comment,email,nickname}));
+            }
         });
     }
 
@@ -100,18 +110,6 @@ const { TextArea } = Input;
                 }
             })
         })
-        console.log(commentData)
-        const {getFieldDecorator} = this.props.form;
-        const formItemLayout = {
-            labelCol: {
-                xs: {span: 24},
-                sm: {span: 8},
-            },
-            wrapperCol: {
-                xs: {span: 24},
-                sm: {span: 16},
-            },
-        };
 
         return (
             <div className = "detail">
@@ -141,9 +139,10 @@ const { TextArea } = Input;
                 }
                 </div>
                 <div>
-                    <Comment {...this.props} ></Comment>
+                    <Comment wrappedComponentRef={(form) => this.formRef = form} {...this.props} ></Comment>
+                    <Button htmlType="submit" onClick={this.handleClick }>点击弹框</Button>
                 </div>
-                <div className = 'comment_list'>
+                <div style={{display: commentData.length ? 'block' : 'none'}} className = 'comment_list'>
                     <List
                     itemLayout="vertical"
                     size="large"
@@ -163,7 +162,7 @@ const { TextArea } = Input;
                                 title={item.user}
                             />
                             {item.msg}
-                            <div>
+                            <div style={{display: item.answer.length ? 'block' : 'none'}} >
                                 <List
                                 itemLayout="vertical"
                                 size="large"
@@ -194,48 +193,7 @@ const { TextArea } = Input;
                 >
                     <Row>
                         <Col span={8}>
-                            <Form onSubmit={this.handleSubmit}>
-                                <FormItem
-                                {...formItemLayout}
-                                label={(
-                                    <span>
-                                    Nickname&nbsp;
-                                    </span>
-                                )}
-                                >
-                                {getFieldDecorator('nickname', {
-                                    rules: [{ required: true, message: 'Please input your nickname!', whitespace: true }],
-                                })(
-                                    <Input />
-                                )}
-                                </FormItem>
-                                <FormItem
-                                {...formItemLayout}
-                                label="E-mail"
-                                >
-                                {getFieldDecorator('email', {
-                                    rules: [{
-                                    type: 'email', message: 'The input is not valid E-mail!',
-                                    }, {
-                                    required: false, message: 'Please input your E-mail!',
-                                    }],
-                                })(
-                                    <Input/>
-                                )}
-                                </FormItem>
-                                <FormItem
-                                    {...formItemLayout}
-                                    label="comment"
-                                    >
-                                    {getFieldDecorator('comment', {
-                                        rules: [ {
-                                        required: true, message: 'Please input your E-mail!',
-                                        }],
-                                    })(
-                                        <TextArea/>
-                                    )}
-                                </FormItem>
-                            </Form>
+                           <Comment wrappedComponentRef={(form) => this.formRef = form} {...this.props} ></Comment>
                         </Col>
                     </Row>
                 </Modal>
