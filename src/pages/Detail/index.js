@@ -114,35 +114,39 @@ import './Detail.less'
         return (
             <div className = "detail">
                 <AticleTitle {...this.props}></AticleTitle>
-                <div className = 'content' dangerouslySetInnerHTML = {{ __html: getHtml(detail.content)}}>
-                </div>
-                <div className = 'nav_to'>
-                {
-                    lastId && lastId.map(v =>
-                        <div key={v.id}>
-                            <Link to={`/Detail/${v.id}`}>
-                                上一篇：
-                                {v.title}
-                            </Link>
-                        </div>
-                    )
-                }
-                {
-                    nextId && nextId.map(v =>
-                    <div key={v.id}>
-                        <Link to={`/Detail/${v.id}`}>
-                        下一篇：
-                        {v.title}
-                        </Link>
+                <div className = 'content'> 
+                    <div  dangerouslySetInnerHTML = {{ __html: getHtml(detail.content)}}>
                     </div>
-                    )
-                }
+                    <div className = 'nav_to'>
+                        {
+                            lastId && lastId.map(v =>
+                                <div key={v.id}>
+                                    <Link to={`/Detail/${v.id}`}>
+                                        上一篇：
+                                        {v.title}
+                                    </Link>
+                                </div>
+                            )
+                        }
+                        {
+                            nextId && nextId.map(v =>
+                            <div key={v.id}>
+                                <Link to={`/Detail/${v.id}`}>
+                                下一篇：
+                                {v.title}
+                                </Link>
+                            </div>
+                            )
+                        }
                 </div>
-                <div>
-                    <Comment wrappedComponentRef={(form) => this.formRef = form} {...this.props} ></Comment>
-                    <Button htmlType="submit" onClick={this.handleClick }>点击弹框</Button>
+                </div>
+                <div className = 'comment'>
+                    <p>发表评论:</p>
+                    <Comment className = 'comment_form' wrappedComponentRef={(form) => this.formRef = form} {...this.props} ></Comment>
+                    <Button htmlType='submit' onClick={this.handleClick }>发表评论</Button>
                 </div>
                 <div style={{display: commentData.length ? 'block' : 'none'}} className = 'comment_list'>
+                    <p>评论列表</p>
                     <List
                     itemLayout="vertical"
                     size="large"
@@ -162,7 +166,7 @@ import './Detail.less'
                                 title={item.user}
                             />
                             {item.msg}
-                            <div style={{display: item.answer.length ? 'block' : 'none'}} >
+                            <div className = 'answer-list' style={{display: item.answer.length ? 'block' : 'none'}} >
                                 <List
                                 itemLayout="vertical"
                                 size="large"

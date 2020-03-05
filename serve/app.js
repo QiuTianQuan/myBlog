@@ -8,6 +8,7 @@ const cors = require('koa-cors')
 // 使用ctx.body解析中间件
 app.use(bodyParser())
 
+app.use(require('koa-static')(__dirname + '/public'))
 
 
 // routes

@@ -1,4 +1,6 @@
 const router = require('koa-router')()
+const multer = require('koa-multer')
+
 
 const {
     postArticleSql,
@@ -10,7 +12,8 @@ const {
     postCommentSql,
     getCommentsSql,
     getAnswersSql,
-    postAnswerSql
+    postAnswerSql,
+    getHeadSql
 } = require('../sql')
 
 const {
@@ -38,6 +41,13 @@ router.get('/api/getLife',async(ctx,next) => {
     ctx.set('Access-Control-Allow-Origin', '*')
     let type = ctx.query.type
     await querySql(getTotalSql(type)).then((data)=>{
+        ctx.body = data
+    })
+})
+
+router.get('/api/getTotal',async(ctx,next) => {
+    ctx.set('Access-Control-Allow-Origin', '*')
+    await querySql(getHeadSql()).then((data)=>{
         ctx.body = data
     })
 })
@@ -105,6 +115,28 @@ router.post('/api/postComment', async (ctx, next) => {
         ctx.body = data
     })
 })
+
+let storage = multer.diskStorage({
+    //文件保存路径
+    destination: function (req, file, cb) {
+        cb(null, 'public/images/')
+    },
+    filename: function (req, file, cb) {
+        var fileFormat = (file.originalname).split(".");  //以点分割成数组，数组的最后一项就是后缀名
+        cb(null,Date.now() + "." + fileFormat[fileFormat.length - 1]);
+    }
+})
+
+let upload = multer({storage:storage})
+
+router.post('/api/upload', upload.single('content_img'),async (ctx, next) => {
+        ctx.set('Access-Control-Allow-Origin', '*')
+        ctx.body = {
+         isok:true,
+         filename: 'http://localhost:8806/images/'+ ctx.req.file.filename   //这里待会儿要改
+       }
+ 
+ })
 
   
 

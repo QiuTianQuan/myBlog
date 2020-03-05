@@ -1,9 +1,21 @@
 import React, { Component } from 'react'
+import {getTotalData,getTotalUrl} from '../../containers/fontEnd'
+import {connect} from 'react-redux'
+import {getArticleInfo,getHtml} from '../../util';
 import './HeadList.less'
+import {
+    BrowserRouter as Router,
+    Link
+} from 'react-router-dom'
 
-export default class HeadList extends Component {
+class HeadList extends Component {
+
+    componentWillMount(){
+        this.props.dispatch(getTotalData(getTotalUrl))
+    }
+
     render() {
-        const listData = [{title:"今天真开心",content:"哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈",like:"2",visitor:"10",avatar:"",id:1},{title:"今天不开心",content:"哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈",like:"2",visitor:"10",avatar:"",id:2}];
+        const listData = this.props.total;
         return (
             <div className = "head-content">
                 <ul className = "head-list"> 
@@ -12,12 +24,20 @@ export default class HeadList extends Component {
                             <p className = "title">
                                 {item.title}
                             </p>
-                            <p className = "content">
-                                {item.content}
-                            </p>
-                            <div className = 'button'> 
-                                阅读全文
+                            <div className = "content">
+                                <div className = 'content-part' dangerouslySetInnerHTML = {{ __html: getHtml(item.content)}}>
+                                </div>
+                                <p>
+                                ...
+                                </p>
                             </div>
+                            
+                                <Link to={`/Detail/${item.id}`}>
+                                <div className = 'button'> 
+                                阅读全文
+                                </div>
+                                </Link>
+                            
                         </li>
                     ))}
                 </ul>
@@ -25,3 +45,11 @@ export default class HeadList extends Component {
         )
     }
 }
+
+const select = (state) => {
+    return {
+       total:state.total
+    }
+}
+
+export default connect(select)(HeadList)    

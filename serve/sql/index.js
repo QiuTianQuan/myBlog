@@ -71,6 +71,10 @@ const postArticleSql = (title , content, type, kind) => {
     return "select * from comment where a_id = " + a_id + " and c_id <> 0";
   }
 
+  const getHeadSql = (a_id) => {
+    return  "SELECT * FROM article WHERE create_time = ( SELECT max( create_time ) FROM article WHERE type = 'life' ) OR create_time = ( SELECT max( create_time ) FROM article WHERE type = 'blog' )"
+  }
+
 
   module.exports = {
     querySql,
@@ -82,5 +86,6 @@ const postArticleSql = (title , content, type, kind) => {
     postCommentSql,
     getCommentsSql,
     getAnswersSql,
-    postAnswerSql
+    postAnswerSql,
+    getHeadSql
   }

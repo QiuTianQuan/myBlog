@@ -1,10 +1,8 @@
 import React, { Component } from 'react'
 import E from 'wangeditor'
-import { postArticleData, postArticleUrl} from '../../containers/fontEnd'
+import { postArticleData, postArticleUrl,postImgUrl} from '../../containers/fontEnd'
 import {connect} from 'react-redux'
 import './PostArticle.less' 
-
-import {Layout, Menu, Breadcrumb, Row, Col} from 'antd'
 import {List, Avatar, Icon, Pagination, Alert, Input, Button,Select } from 'antd'
 const Option = Select.Option;
 
@@ -82,45 +80,40 @@ class PostArticle extends Component {
             'undo',  // 撤销
             'redo'  // 重复
         ]
-        editor.customConfig.uploadImgServer = 'https://gtacms.gtarcade.com/backend/editor/index?action=uploadimage';  // 上传图片到服务器
+        editor.customConfig.uploadImgServer = postImgUrl; // 上传图片到服务器
         // 3M
         editor.customConfig.uploadImgMaxSize = 3 * 1024 * 1024;
         // 限制一次最多上传 5 张图片
-        editor.customConfig.uploadImgMaxLength = 1;
+        editor.customConfig.uploadImgMaxLength = 5;
         // 自定义文件名
-        editor.customConfig.uploadFileName = 'editor_img';
+        editor.customConfig.uploadFileName = 'content_img';
+        
         // 将 timeout 时间改为 3s
-        editor.customConfig.uploadImgTimeout = 5000;
+        editor.customConfig.uploadImgTimeout = 3000;
+
+        //隐藏网络图片tab
+        editor.customConfig.showLinkImg = false
+
+        //设置上传图片的header
+        editor.customConfig.uploadImgHeaders = {
+            'enctype':'multipart/form-data'
+        }
+
     
         editor.customConfig.uploadImgHooks = {
-            before: function (xhr, editor, files) {
-                // 图片上传之前触发
-                // xhr 是 XMLHttpRequst 对象，editor 是编辑器对象，files 是选择的图片文件
-    
-                // 如果返回的结果是 {prevent: true, msg: 'xxxx'} 则表示用户放弃上传
-                // return {
-                //     prevent: true,
-                //     msg: '放弃上传'
-                // }
-                // alert("前奏");
-            },
             success: function (xhr, editor, result) {
                 // 图片上传并返回结果，图片插入成功之后触发
                 // xhr 是 XMLHttpRequst 对象，editor 是编辑器对象，result 是服务器端返回的结果
-                // var url = result.data.url;
-                // alert(JSON.stringify(url));
-                // editor.txt.append(url);
-                // alert("成功");
+                console.log('图片上传并返回结果,图片插入成功')
+                
             },
             fail: function (xhr, editor, result) {
-                // 图片上传并返回结果，但图片插入错误时触发
-                // xhr 是 XMLHttpRequst 对象，editor 是编辑器对象，result 是服务器端返回的结果
-                alert("失败");
+                alert('图片上传并返回结果，但图片插入错误');
             },
             error: function (xhr, editor) {
                 // 图片上传出错时触发
                 // xhr 是 XMLHttpRequst 对象，editor 是编辑器对象
-                // alert("错误");
+                alert("错误");
             },
             // 如果服务器端返回的不是 {errno:0, data: [...]} 这种格式，可使用该配置
             // （但是，服务器端返回的必须是一个 JSON 格式字符串！！！否则会报错）
@@ -128,7 +121,7 @@ class PostArticle extends Component {
                 // 图片上传并返回结果，自定义插入图片的事件（而不是编辑器自动插入图片！！！）
                 // insertImg 是插入图片的函数，editor 是编辑器对象，result 是服务器端返回的结果
                 // 举例：假如上传图片成功后，服务器端返回的是 {url:'....'} 这种格式，即可这样插入图片：
-                var url = result.data[0];
+                var url = result.filename;
                 insertImg(url);
                 // result 必须是一个 JSON 格式字符串！！！否则报错
             }

@@ -23,6 +23,7 @@ export const postArticleUrl = domain+'/api/postArticle'
 export const postCommentUrl = domain+'/api/postComment'
 export const postAnswerUrl = domain+'/api/postAnswer'
 export const getAnswersUrl = domain+'/api/getAnswers'
+export const postImgUrl = domain+'/api/upload'
 
 export const getBlogData = url=>{
       return dispatch => {
