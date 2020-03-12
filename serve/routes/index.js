@@ -13,7 +13,9 @@ const {
     getCommentsSql,
     getAnswersSql,
     postAnswerSql,
-    getHeadSql
+    getHeadSql,
+    addCommentNum,
+    addVisitorNum
 } = require('../sql')
 
 const {
@@ -33,8 +35,9 @@ router.post('/api/postComment', async (ctx, next) => {
     ctx.set('Access-Control-Allow-Origin', '*')
     let {id,comment,email,nickname} = ctx.request.body
     await querySql(postCommentSql(id,saveHtml(comment), email,nickname)).then((data) => {
+        querySql(addCommentNum(id));
         ctx.body = data
-    })
+    }) 
 })
 
 router.get('/api/getLife',async(ctx,next) => {
@@ -64,6 +67,7 @@ router.get('/api/getDetail',async(ctx,next) => {
     ctx.set('Access-Control-Allow-Origin', '*')
     let id = ctx.query.id
     await querySql(getDetailSql(id)).then((data)=>{
+        querySql(addVisitorNum(id));
         ctx.body = spaceAdd(data)
     })
 })

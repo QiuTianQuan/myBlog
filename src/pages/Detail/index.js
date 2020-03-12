@@ -14,7 +14,7 @@ import {getDetailUrl,
         postAnswerData,
         postCommentData} from '../../containers/fontEnd'
 import {connect} from 'react-redux'
-import {getArticleInfo,getHtml} from '../../util';
+import {getArticleInfo,getHtml,formatTime} from '../../util';
 import {
     Link
 } from 'react-router-dom'
@@ -146,7 +146,7 @@ import './Detail.less'
                     <Button htmlType='submit' onClick={this.handleClick }>发表评论</Button>
                 </div>
                 <div style={{display: commentData.length ? 'block' : 'none'}} className = 'comment_list'>
-                    <p>评论列表</p>
+                    <p>评论列表:</p>
                     <List
                     itemLayout="vertical"
                     size="large"
@@ -166,6 +166,9 @@ import './Detail.less'
                                 title={item.user}
                             />
                             {item.msg}
+                            <div className = 'comment-time'>
+                                {formatTime(item.create_time)}
+                            </div>
                             <div className = 'answer-list' style={{display: item.answer.length ? 'block' : 'none'}} >
                                 <List
                                 itemLayout="vertical"
@@ -179,6 +182,9 @@ import './Detail.less'
                                             title={i.user}
                                         />
                                         {i.msg}
+                                        <div className = 'comment-time'>
+                                            {formatTime(item.create_time)}
+                                        </div>
                                     </List.Item>
                                 )}
                                 />
@@ -187,20 +193,18 @@ import './Detail.less'
                     )}
                 />
                 </div>
-                <Modal
-                title="Modal"
-                visible={this.state.visible}
-                onCancel={this.hideModal}
-                cancelText="取消"
-                okText="提交"
-                onOk={this.handleOk}
-                >
-                    <Row>
-                        <Col span={8}>
-                           <Comment wrappedComponentRef={(form) => this.formRef = form} {...this.props} ></Comment>
-                        </Col>
-                    </Row>
-                </Modal>
+                <div className = 'modal'>
+                    <Modal
+                    title="Modal"
+                    visible={this.state.visible}
+                    onCancel={this.hideModal}
+                    cancelText="取消"
+                    okText="提交"
+                    onOk={this.handleOk}
+                    >
+                        <Comment wrappedComponentRef={(form) => this.formRef = form} {...this.props} ></Comment>
+                    </Modal>
+                </div>
             </div>
         )
     }

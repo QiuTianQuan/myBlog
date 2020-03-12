@@ -75,6 +75,16 @@ const postArticleSql = (title , content, type, kind) => {
     return  "SELECT * FROM article WHERE create_time = ( SELECT max( create_time ) FROM article WHERE type = 'life' ) OR create_time = ( SELECT max( create_time ) FROM article WHERE type = 'blog' )"
   }
 
+  const addCommentNum = (id) =>{
+    return "update article set comment_num = comment_num+1  where id = " + id;
+  }
+
+  const addVisitorNum = (id) =>{
+    return "update article set visitor_num = visitor_num+1  where id = " + id;
+  }
+
+  
+
 
   module.exports = {
     querySql,
@@ -87,5 +97,7 @@ const postArticleSql = (title , content, type, kind) => {
     getCommentsSql,
     getAnswersSql,
     postAnswerSql,
-    getHeadSql
+    getHeadSql,
+    addCommentNum,
+    addVisitorNum
   }

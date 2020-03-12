@@ -7,7 +7,7 @@ import {
     Route,
     Link
 } from 'react-router-dom'
-import {getPathName} from '../../util';
+import {getPathName,formatTime} from '../../util';
 import './ContentList.less'
 
 
@@ -22,7 +22,7 @@ export default class ContentList extends Component {
             </span>
         )
         return (
-            <div>
+            <div className = 'content-list'>
                 <List
                 itemLayout="vertical"
                 size="large"
@@ -31,19 +31,20 @@ export default class ContentList extends Component {
                     <List.Item
                         key={item.title}
                         actions={[
-                            //formatTime(item.createTime),
-                            <IconText type="like-o" text={item.like}/>,
-                            <IconText type="message" text="2"/>,
-                            <IconText type="eye-o" text={item.visitor}/>,
+                            formatTime(item.create_time),
+                            <IconText type="message" text={item.comment_num}/>,
+                            <IconText type="eye-o" text={item.visitor_num}/>,
                         ]}
-                        extra={pathname===''?'':<img width={272} alt="logo" src="https://gw.alipayobjects.com/zos/rmsportal/mqaQswcyDLcXyDKnZfES.png" />}
+                        /* extra={pathname===''?'':<img width={272} alt="logo" src="https://gw.alipayobjects.com/zos/rmsportal/mqaQswcyDLcXyDKnZfES.png" />} */
                     >
                         <List.Item.Meta
                             title={
                                 <Link to={`/Detail/${item.id}`}>
-                                    {item.title}
+                                    <div className = 'title'>{item.title}</div>
+                                    <span className ='tag'>{item.kind}</span>
                                 </Link>
                             }
+
                             description={item.short}
                         />
                     </List.Item>
