@@ -13,7 +13,7 @@ import {getDetail,
 
 var qs = require("qs");
 
-const domain = 'http://localhost:8806'
+const domain = 'http://106.52.172.202:8806'
 export const getBlogUrl = domain+'/api/getBlog'
 export const getTotalUrl = domain+'/api/getTotal'
 export const getLifeUrl = domain+'/api/getLife'
