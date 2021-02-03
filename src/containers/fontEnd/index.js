@@ -10,7 +10,9 @@ import {getDetail,
         getLife,
         postAnswer,
         getAnswers} from '../../actions'
+
 var qs = require("qs");
+
 const domain = 'http://localhost:8806'
 export const getBlogUrl = domain+'/api/getBlog'
 export const getTotalUrl = domain+'/api/getTotal'
@@ -128,7 +130,7 @@ export const getLifeData = url=>{
         headers: {"Content-Type": "application/x-www-form-urlencoded",},
   
       }).then(res => {
-        dispatch(postArticle(res.data))
+        console.log(res.data.insertId)
       })
     }
   }
